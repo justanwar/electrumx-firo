@@ -1777,3 +1777,59 @@ class AuxPoWElectrumX(ElectrumX):
             height += 1
 
         return headers.hex()
+
+
+class FiroElectrumX(DashElectrumX):
+    def set_request_handlers(self, ptuple):
+        super().set_request_handlers(ptuple)
+        self.request_handlers.update({
+            'sigma.getanonymityset': self.getanonymityset,
+            'sigma.getmintmetadata': self.getmintmetadata,
+            'sigma.getusedcoinserials': self.getusedcoinserials,
+            'sigma.getlatestcoinids': self.getlatestcoinids,
+        })
+
+    async def getanonymityset(self, denom, groupId):
+        '''
+        Returns the whole anonynity set for denomination in the groupId
+
+        denom: denomination in COINs
+        groupId: the anonymity group id
+        '''
+        result = await self.daemon_request('getanonymityset', [denom, groupId])
+        if result is not None:
+            return result
+        return None
+
+    async def getmintmetadata(self, mints):
+        '''
+        Returns the block height and groupId of pubcoin
+
+        denom: denomination in COINs
+        pubcoin: pubcoin's serialization
+        '''
+        result = await self.daemon_request('getmintmetadata', [mints])
+        if result is not None:
+            return result
+        return None
+
+    async def getusedcoinserials(self):
+        '''
+        Returns the whole set of the used coin serials
+        '''
+        result = await self.daemon_request('getusedcoinserials')
+        if result is not None:
+            return result
+        return None
+
+    async def getlatestcoinids(self):
+        '''
+        Returns the whole anonynity set for denomination in the groupId
+
+        denom: denomination in COINs
+        groupId: the anonymity group id
+        '''
+        result = await self.daemon_request('getlatestcoinids')
+        if result is not None:
+            return result
+        return None
