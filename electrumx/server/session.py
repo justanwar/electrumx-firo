@@ -1836,8 +1836,8 @@ class FiroElectrumX(DashElectrumX):
             return result
         return None
         
-    async def getcoinsforrecovery(self):
-        result = await self.daemon_request('getcoinsforrecovery')
+    async def getcoinsforrecovery(self, setId):
+        result = await self.daemon_request('getcoinsforrecovery', [setId])
         if result is not None:
             return result
         return None
