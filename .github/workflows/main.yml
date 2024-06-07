@@ -9,17 +9,17 @@ on:
     - 'doc/**'
     - '**/README.md'
     branches:
-	  - master
+    - master
 jobs:
   ci:
     runs-on: ubuntu-22.04
-		steps:
-			- name: Checkout
-			  uses: actions/checkout@v2
-			- name: Install Required Packages
-			  run: |
-				  sudo apt-get update
-				  sudo apt-get install -y python3-setuptools
-			- name: Install Electrumx
-			  run: sudo python3 setup.py install
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Required Packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-setuptools
+    - name: Install Electrumx
+      run: sudo python3 setup.py install
         
