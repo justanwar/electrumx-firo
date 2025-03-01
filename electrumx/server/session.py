@@ -1788,10 +1788,15 @@ class FiroElectrumX(DashElectrumX):
             'lelantus.getusedcoinserials': self.getusedcoinserials,
             'lelantus.getlatestcoinid': self.getlatestcoinid,
             'spark.getsparkanonymityset': self.getsparkanonymityset,
+            'spark.getsparkanonymitysetmeta': self.getsparkanonymitysetmeta,
+            'spark.getsparkanonymitysetsector': self.getsparkanonymitysetsector,
             'spark.getsparkmintmetadata': self.getsparkmintmetadata,
             'spark.getusedcoinstags': self.getusedcoinstags,
+            'spark.getusedcoinstagstxhashes': self.getusedcoinstagstxhashes,
             'spark.getsparklatestcoinid': self.getsparklatestcoinid,
             'blockchain.getfeerate': self.getfeerate,
+            'spark.getmempoolsparktxids': self.getmempoolsparktxids,
+            'spark.getmempoolsparktxs': self.getmempoolsparktxs,
             'blockchain.checkifmncollateral': self.checkifmncollateral
         })
 
@@ -1854,6 +1859,32 @@ class FiroElectrumX(DashElectrumX):
             return result
         return None
 
+    async def getsparkanonymitysetmeta(self, coinGroupId):
+        '''
+        Returns the set of metadata for each anon set
+
+        coinGroupId: the anonymity group id
+        '''
+        result = await self.daemon_request('getsparkanonymitysetmeta', [coinGroupId])
+        if result is not None:
+            return result
+        return None
+
+    async def getsparkanonymitysetsector(self, coinGroupId, latestBlock, startIndex, endIndex):
+        '''
+        Returns the setor of anon set based on specified datd
+
+        coinGroupId: the anonymity group id
+        latestBlock: latest block hash for anon set
+        startIndex: start index for the sector
+        endIndex: end index for the sector
+
+        '''
+        result = await self.daemon_request('getsparkanonymitysetsector', [coinGroupId, latestBlock, startIndex, endIndex])
+        if result is not None:
+            return result
+        return None
+
     async def getsparkmintmetadata(self, mints):
         '''
         Returns the block height and groupId of spark mint
@@ -1876,11 +1907,42 @@ class FiroElectrumX(DashElectrumX):
             return result
         return None
 
+    async def getusedcoinstagstxhashes(self, startNumber):
+        '''
+        Returns the whole set of the used mint tags
+
+        startNumber: Number of elements already existing on user side
+        '''
+        result = await self.daemon_request('getusedcoinstagstxhashes', [startNumber])
+        if result is not None:
+            return result
+        return None
+
     async def getsparklatestcoinid(self):
         '''
         Returns the last existing coin id
         '''
         result = await self.daemon_request('getsparklatestcoinid')
+        if result is not None:
+            return result
+        return None
+
+    async def getmempoolsparktxs(self, txids):
+        '''
+        Returns the  set of spark tx data
+
+        txids: Tx ids for which we ask data
+        '''
+        result = await self.daemon_request('getmempoolsparktxs', [txids])
+        if result is not None:
+            return result
+        return None
+
+    async def getmempoolsparktxids(self):
+        '''
+        Returns the lits of tx ids existing int the mempool
+        '''
+        result = await self.daemon_request('getmempoolsparktxids')
         if result is not None:
             return result
         return None
